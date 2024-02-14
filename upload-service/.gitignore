@@ -2,4 +2,3 @@ node_modules
 git-repos
 .env
 dist
-src/firebaseSecrets.ts
