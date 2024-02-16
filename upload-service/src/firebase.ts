@@ -12,7 +12,7 @@ const firebaseApp = initializeApp({
 const bucket = getStorage(firebaseApp).bucket()
 
 function uploadFile(file: string) {
-    console.log("uploading :", file)
+
     return new Promise((res, rej) => {
         const localFilePath = getRootDirectory() + "/" + file;
         bucket.upload(localFilePath, { destination: file }, (err, file) => {
@@ -26,7 +26,7 @@ function uploadFile(file: string) {
     })
 }
 export async function uploadFiles(dir: string[]) {
-    console.log("uploading all files to cloud storage")
+    console.log("uploading files of : " , dir)
     let isError = false
     const uploadPromises = dir
         .filter(filePath => filePath.split("/")[2] !== ".git")
