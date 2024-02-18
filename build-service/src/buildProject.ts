@@ -31,7 +31,7 @@ function startBuilding(projectId: string): Promise<{ success: boolean, error: Er
         })
     })
 }
-
+//TODO containerize before build
 function verifyBuildCommand(projectId: string) {
     return new Promise((resolve, reject) => {
         exec(`cd ./downloaded-files/${projectId} && cat package.json`, (err, output) => {
@@ -52,7 +52,7 @@ function verifyBuildCommand(projectId: string) {
                 return;
             }
 
-            const disallowedKeywords = ["sudo", "apt-get", "apt", "rm", ";", "|", ">", "<", "$(", "shutdown", "reboot"];
+            const disallowedKeywords = ["sudo", "apt-get", "apt", "cat", ".env", "rm", ";", "|", ">", "cd", "curl", "curl", "<", "$(", "shutdown", "reboot"];
             for (const keyword of disallowedKeywords) {
                 if (buildCommand.includes(keyword)) {
 

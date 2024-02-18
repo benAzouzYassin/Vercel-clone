@@ -3,7 +3,6 @@ import { createClient } from "redis"
 import { downloadFolder } from "./src/downloadProject.js"
 import { buildProject } from "./src/buildProject.js";
 import { uploadBuildOutput } from "./src/uploadProject.js";
-import { rm } from "fs"
 import { removerDirAsync } from "./src/filesUtils.js";
 dotenv.config()
 
