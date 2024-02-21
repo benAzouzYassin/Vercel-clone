@@ -64,6 +64,32 @@ export async function handleLogin(req: Request, res: Response) {
     }
 
 }
+
+export async function handleTokenRefresh(req: Request, res: Response) {
+    const refreshToken = req.cookies['refreshToken'];
+    if (refreshToken == null) return res.sendStatus(401);
+    try {
+        //@ts-ignore
+        const payload = jwt.verify(refreshToken, process.env.SECRET_KEY);
+
+        const session = await prisma.session.findUnique({ where: { id: payload.sessionId } });
+        if (!session) return res.sendStatus(403);
+
+        //@ts-ignore
+        const accessToken = jwt.sign({ userId: payload.userId, sessionId: payload.sessionId }, process.env.SECRET_KEY, { expiresIn: '1m' });
+        res.cookie('accessToken', accessToken, { httpOnly: true });
+        return res.json({ success: true, accessToken });
+
+    } catch (err) {
+        //@ts-ignore
+        if (err?.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Refresh token expired' });
+        }
+        return res.sendStatus(403);
+    }
+}
+
+
 export async function handleLogout(req: Request, res: Response) {
     try {
         const token = req.cookies['accessToken'];

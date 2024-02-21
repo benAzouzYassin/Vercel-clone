@@ -3,6 +3,7 @@ import express from "express"
 import { authRouter } from "./src/routes.js"
 import cors from "cors"
 import cookieParser from "cookie-parser";
+import { authMiddleware } from "./src/middleware/protection.js";
 
 dotenv.config()
 const app = express()
@@ -20,12 +21,12 @@ app.use(express.json())
 
 app.use("/auth", authRouter)
 
-app.get("/isAuthenticated", (req, res) => {
+app.get("/isAuthenticated", authMiddleware, (req, res) => {
     console.log(req.cookies)
     res.send(req.cookies)
 })
 
-app.get("/", (req, res) => {
+app.get("/", authMiddleware, (req, res) => {
     res.send({ work: true })
 })
 
