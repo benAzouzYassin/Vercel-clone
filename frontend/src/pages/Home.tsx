@@ -2,7 +2,10 @@ import Utilities from "@/components/home/Utilities"
 import Nav from "@/components/home/Nav"
 import ProjectCard from "@/components/home/ProjectCard"
 import { Button } from "@/components/ui/button"
+import { useEffect } from "react"
+import { api } from "@/lib/axios"
 
+//TODO MAKE THE AUTHENTICATION with github 
 
 type Project = {
     name: string
@@ -13,6 +16,15 @@ type Project = {
     faviconUrl: string
 }
 export default function Home() {
+
+    useEffect(() => {
+        api.get("/isAuthenticated").then(data => console.log(data)).catch(err => console.error(err))
+    }, [])
+
+    const handleLogout = () => {
+        api.post("/auth/withPassword/logout").then(data => console.log(data)).catch(err => console.error(err))
+
+    }
     const projects: Project[] = [
         // { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
         // { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
@@ -24,6 +36,7 @@ export default function Home() {
     return (<main className="min-h-[100vh] relative  bg-black" >
         <Nav />
         <div className="px-48">
+            <Button onClick={handleLogout}>LOGOUT</Button>
             <Utilities />
             <div className="grid grid-cols-3 gap-5">
                 {projects.map(project => (
