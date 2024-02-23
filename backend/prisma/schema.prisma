@@ -9,14 +9,21 @@ datasource db {
 
 model User {
   id             String    @id @default(uuid())
-  email          String    @default("")
+  email          String
   hashedPassword String
   sessions       Session[]
 }
 
+model GithubUser {
+  id       String    @id @default(uuid())
+  email    String    @unique
+  sessions Session[]
+}
+
 model Session {
-  id        String   @id @default(uuid())
-  userId    String
-  expiresAt DateTime
-  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+  id           String      @id @default(uuid())
+  userId       String?
+  user         User?       @relation(references: [id], fields: [userId], onDelete: Cascade)
+  GithubUser   GithubUser? @relation(fields: [githubUserId], references: [id])
+  githubUserId String?
 }

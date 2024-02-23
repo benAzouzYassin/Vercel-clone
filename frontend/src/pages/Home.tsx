@@ -2,8 +2,9 @@ import Utilities from "@/components/home/Utilities"
 import Nav from "@/components/home/Nav"
 import ProjectCard from "@/components/home/ProjectCard"
 import { Button } from "@/components/ui/button"
-
-//TODO MAKE THE AUTHENTICATION with github 
+import { api } from "@/lib/axios"
+import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
 
 type Project = {
     name: string
@@ -14,9 +15,21 @@ type Project = {
     faviconUrl: string
 }
 export default function Home() {
-
+    const navigate = useNavigate()
+    const [githubData, setGithubData] = useState(null)
+    useEffect(() => {
+        api.get("/githubData")
+            .then(({ data }) => setGithubData(data))
+            .catch(err => {
+                const status = err?.response?.status
+                if (status == 401 || status == 403) navigate("/auth")
+            })
+    }, [])
 
     const handleLogout = () => {
+        api.get("/auth/logout")
+            .then(() => navigate("/auth"))
+            .catch(err => console.error(err))
     }
     const projects: Project[] = [
         // { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
@@ -26,6 +39,8 @@ export default function Home() {
         // { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
         // { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" }
     ]
+
+    if (!githubData) return "loading...."
     return (<main className="min-h-[100vh] relative  bg-black" >
         <Nav />
         <div className="px-48">

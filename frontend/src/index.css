@@ -4,6 +4,10 @@
 @tailwind utilities;
 
 
+* {
+  font-size: 20px;
+}
+
 body {
   font-family: "Ubuntu", sans-serif;
 }

@@ -1,10 +1,11 @@
 
-import { Button } from "@/components/ui/button"
-
 export default function Auth() {
-    const handleLogin = async () => {
-    }
 
+    const githubClientId = "127f2985fa1a115fb5b5"
+    const path = "/deploy"
+    const scopes = ["repo", "user:email", "emails:read"].join(" ")
+    console.log(scopes)
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&path=${path}&scope=${scopes}`
     return (
         <main className="w-[100vw] h-[100vh] bg-black flex  ">
             <div className="mx-auto w-96  p-5 rounded-md bg-[#ffffff] border-white/10 space-y-6  border  h-fit mt-56   text-black">
@@ -14,10 +15,11 @@ export default function Auth() {
                 </div>
                 <div className="space-y-4">
                     <div className="h-1"></div>
-                    <Button onClick={() => handleLogin} className="w-full   text-white bg-black border border-white/20" >
-                        Login with GitHub
+
+                    <a href={githubAuthUrl} className="w-[90%] mx-auto rounded-md  px-5 py-2 items-center justify-center    flex text-white bg-black border border-white/20 active:scale-95 transition-transform" >
+                        Authenticate with GitHub
                         <img className="bg-black ml-3 rounded-full mb-[2px]" src="/github.svg" width="20" height="20" alt="" />
-                    </Button>
+                    </a>
                     <a className="inline-block w-full text-center text-sm underline" href="#">
                         Don't have an account?
                     </a>
