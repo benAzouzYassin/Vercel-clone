@@ -36,7 +36,8 @@ app.use("/auth", authRouter)
 app.use("/github", authMiddleware, githubRouter)
 app.use("/user", authMiddleware, userRouter)
 
-app.post("/deployProject", handleDeploy)
+app.post("/deployProject", authMiddleware, handleDeploy)
+app.get("/isAuthenticated", authMiddleware, (req, res) => res.send({ authenticated: true }))
 
 app.get("/projectStatus/:id", async (req, res) => {
     try {

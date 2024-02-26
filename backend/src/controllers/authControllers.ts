@@ -15,7 +15,7 @@ export async function handleGithubAuth(req: Request, res: Response) {
 
         const { data } = await axios.post("https://github.com/login/oauth/access_token", { client_id, client_secret, redirect_uri, code }, { headers: { "Accept": "application/json" } })
         const token = data?.access_token
-
+        console.log(token)
         const { jwtAccessToken, jwtRefreshToken } = await saveUserIfNotExist(token)
 
         const cookiesOptions = {
@@ -29,7 +29,8 @@ export async function handleGithubAuth(req: Request, res: Response) {
 
         res.redirect(process.env.FRONTEND_URL ?? "")
     } catch (error) {
-        res.status(403).send("error")
+        // console.error(error)
+        res.status(403).send(error)
     }
 }
 

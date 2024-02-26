@@ -20,7 +20,7 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
     try {
         const payload = jwt.verify(accessToken, process.env.SECRET_KEY!) as jwt.JwtPayload;
         req.githubToken = payload.githubToken;
-        req.githubToken = payload.userId;
+        req.userId = payload.userId;
         next();
 
     } catch (error) {
@@ -31,7 +31,7 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
             if (success) {
                 res.cookie("access_token", accessToken, { httpOnly: true, secure: !!process.env.PRODUCTION });
                 req.githubToken = githubToken;
-                req.githubToken = userId;
+                req.userId = userId;
                 next();
             } else {
                 return res.sendStatus(401).send({ message: message })

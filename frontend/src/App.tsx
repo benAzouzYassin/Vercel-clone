@@ -20,7 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/import" element={<ImportPage />} />
-        <Route path="/project" element={<Project />} />
+        <Route path="/project/:id" element={<Project />} />
       </Routes>
     </QueryClientProvider>
   )

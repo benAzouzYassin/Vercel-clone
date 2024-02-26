@@ -5,25 +5,28 @@ import {
     SelectItem,
     SelectTrigger,
 } from "@/components/ui/select"
+import { useNavigate } from "react-router-dom"
 
 type Props = {
+    id: string
     name: string
     url: string
     date: string
     githubUrl: string
     imageUrl: string
     faviconUrl: string
-
+    status: string
 }
 
 export default function ProjectCard(props: Props) {
+    const navigate = useNavigate()
+    return <div onClick={() => navigate(`/project/${props.id}`)} className="relative text-white w-auto rounded-sm hover:border-white transition-colors hover:cursor-pointer h-40 bg-[#252525]/10 border border-white/10">
 
-    return <div className="relative text-white w-auto rounded-sm hover:border-white transition-colors hover:cursor-pointer h-40 bg-[#252525]/10 border border-white/10">
         <div className="w-full pl-3 pt-3  h-16 flex">
             <span style={{ backgroundImage: `url(${props.faviconUrl})`, backgroundSize: "50%", backgroundPosition: "center" }} className="border bg-no-repeat   object-contain   border-white/10 rounded-full h-9 w-9 " ></span>
             <div className=" pl-3">
-                <p className="text-[20px] pt-1">{props.name}</p>
-                <p className="text-[14px] hover:cursor-pointer hover:text-white active:text-white/70 text-white/80  pt-1">{props.url}</p>
+                <p className="text-[20px] pt-1">{props.name} {props.status !== "live" ? <span className="text-red-400 text-xs">(Not deployed)</span> : <span className="text-green-500 text-xs mb-[2px]">(Live)</span>} </p>
+                <a href={props.url} target="_blank" className="text-[14px] hover:cursor-pointer hover:text-white active:text-white/70 text-white/80  pt-1">{props.url}</a>
             </div>
             <Select >
                 <SelectTrigger iconClassName="hidden" className=" bg-transparent ml-auto mr-2 mt-1 border border-white/10 hover:bg-[#252525] h-6 w-fit p-1 rounded-md">
@@ -39,6 +42,6 @@ export default function ProjectCard(props: Props) {
             <img src="/github.svg" width="20" height="20" alt="github logo" className="ml-1" />
             <a href={props.githubUrl} className="text-[12px] underline underline-offset-2 line-clamp-1">{props.githubUrl}</a>
         </div>
-        <p className="left-5 bottom-5 text-[14px] text-white/50 absolute">Uploaded {props.date}</p>
+        <p className="left-5 bottom-5 text-[14px] text-white/50 absolute">Uploaded {props.date.substring(0, 10)}</p>
     </div>
 }

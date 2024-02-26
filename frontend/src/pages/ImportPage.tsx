@@ -7,6 +7,8 @@ import { api } from '@/lib/axios';
 import Loader from '@/components/ui/Loader';
 import { toast, Toaster } from "sonner"
 import { useCallback, useEffect, useState } from 'react';
+import LoadingPage from '@/components/LoadingPage';
+import { useNavigate } from 'react-router-dom';
 
 type GitRepo = {
     name: string
@@ -14,9 +16,6 @@ type GitRepo = {
     isPrivate: boolean
     url: string
 }
-
-//TODO make it when the project is uploaded you take the user to the project page to wait it being deployed
-
 
 const REQUESTS_SERVICE_URL = "localhost:3001"
 const STATUS_POLLING_TIMES = 120
@@ -27,6 +26,10 @@ const toastMessage = (message: string) => toast.message(<div className="text-xs 
 const toastSuccess = (message: string) => toast.success(<div className="text-xs font-bold flex items-center gap-1"><CheckCircle2 className=" fill-green-600 stroke-white" />{message}</div>)
 const wait = (t: number) => new Promise(res => setTimeout(res, t))
 export function ImportPage() {
+    //route protection
+    const navigate = useNavigate()
+    api.get("/isAuthenticated").
+        catch(() => navigate("/auth"))
 
     const query = useQuery({
         queryKey: ["githubRepos"],
@@ -36,7 +39,6 @@ export function ImportPage() {
         },
 
     })
-
     const [searchInput, setSearchInput] = useState("")
     const [repositories, setRepositories] = useState(query?.data)
     const [deployedId, setDeployId] = useState("")
@@ -53,12 +55,13 @@ export function ImportPage() {
         while (i < STATUS_POLLING_TIMES) {
             await wait(2000) //POLL DATA EVERY 2 seconds
             try {
+
                 const { data } = await api.get(`/projectStatus/${id}`)
-                console.log(data)
                 switch (data?.deployStatus) {
                     case "live":
                         setDeployStatus("live")
                         toastSuccess("deployment succeeded ! ")
+                        api.patch("/user/project", { status: "live", projectId: id }).catch(err => console.error(err))
                         window.location.replace("http://" + id + "." + REQUESTS_SERVICE_URL)
                         i = STATUS_POLLING_TIMES // stops the polling
                         break;
@@ -66,10 +69,12 @@ export function ImportPage() {
                     case "failed":
                         setDeployStatus(null)
                         setDeployId("")
+                        api.patch("/user/project", { status: "failed", projectId: id }).catch(err => console.error(err))
                         toastError("deployment failed.")
                         i = STATUS_POLLING_TIMES // stops the polling
                         break;
                     case "building":
+
                         setDeployStatus("building")
                         break;
                     default:
@@ -93,8 +98,9 @@ export function ImportPage() {
     }, [deployedId]);
 
 
-
-    const handleDeploy = (repo: GitRepo) => {
+    const [deployBtnIndex, setDeployBtnIndex] = useState(-1)
+    const handleDeploy = (repo: GitRepo, index: number) => {
+        setDeployBtnIndex(index)
         if (repo.isPrivate) {
             toastError("can't deploy a private repository")
             return
@@ -132,9 +138,11 @@ export function ImportPage() {
     }, [searchInput])
 
     if (query?.isError) {
-        console.error(query?.error)
         toastError("error while getting your data.")
     }
+
+
+    if (deployStatus === "building") return <LoadingPage message="Deploying your project..." />
     return <main className="min-h-[100vh] bg-black text-white">
         <Nav />
         <div className="px-56  flex flex-col mt-12 pb-5 justify-center ">
@@ -148,10 +156,10 @@ export function ImportPage() {
                 <p className="w-full text-center mt-5  text-3xl text-white/40"></p>
                 <div className="w-[90%] mx-auto h-fit min-h-[50vh]  rounded-lg  border-white/20 bg-[#0A0A0A] mt-8 flex flex-col border ">
 
-                    {repositories?.map((repo: GitRepo) => (
+                    {repositories?.map((repo: GitRepo, index: number) => (
                         <div key={repo.url} className="flex  first:rounded-t-lg last:rounded-b-lg items-center border border-white/20   py-2 ">
                             <p className="pl-5 first-letter:uppercase"> {repo.name}</p>{repo.isPrivate && <Lock className=" ml-2 stroke-neutral-600 scale-75" />}
-                            <Button onClick={() => handleDeploy(repo)} className="bg-white/90 text-black px-7 ml-auto mr-5 hover:bg-white/70 active:bg-white/50" disabled={deployBtnLoading}>{deployBtnLoading ? <Loader className="w-5 h-5 border-4  " /> : "Deploy"}</Button>
+                            <Button onClick={() => handleDeploy(repo, index)} className="bg-white/90 text-black px-7 ml-auto mr-5 hover:bg-white/70 active:bg-white/50" disabled={deployBtnLoading}>{deployBtnLoading && deployBtnIndex === index ? <Loader className="w-5 h-5 border-4" /> : "Deploy"}</Button>
                         </div>
                     ))}
                     {query?.isLoading && <Loader className="m-auto opacity-50 w-20  h-20" />}

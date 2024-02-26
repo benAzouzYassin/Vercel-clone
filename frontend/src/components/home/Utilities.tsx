@@ -10,8 +10,10 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils";
 import { Search, LayoutListIcon, LucideLayoutGrid } from "lucide-react"
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
 
 export default function Utilities() {
+    const navigate = useNavigate()
     const commonClassName = "border-white/10 text-white bg-[#0a0a0a]  border border-white/10 focus-visible:ring-offset-white/20"
     return <div className="flex  h-20 gap-2 justify-center mt-20">
         <div className="w-[60%] relative h-fit">
@@ -31,6 +33,6 @@ export default function Utilities() {
             <ToggleGroupItem value="grid" className="data-[state=on]:bg-white/90"><LucideLayoutGrid /></ToggleGroupItem>
             <ToggleGroupItem value="list" className="data-[state=on]:bg-white/90"><LayoutListIcon /></ToggleGroupItem>
         </ToggleGroup>
-        <Button className="bg-white/90 text-black hover:bg-white/50 active:bg-white/30 w-[15%]">Add new project </Button>
+        <Button onClick={() => navigate("/import")} className="bg-white/90 text-black hover:bg-white/50 active:bg-white/30 w-[15%]">Add new project </Button>
     </div>
 }
