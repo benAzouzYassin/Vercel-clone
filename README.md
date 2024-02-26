@@ -12,9 +12,11 @@
 ### Creating new project from github 
 ![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/Vercel-clone/main/previews/import-page.png)
 
-
 ### Project deployment page
 ![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/Vercel-clone/main/previews/project-page.png)
+
+# Technologies
+### *React / Redis / Postgresql / Prisma ORM / Firebase / Tailwind / Nodejs / Express*
 
 # Project Folders
 
@@ -33,5 +35,4 @@
 ## Frontend
 **This is the ui of our project.**
 
-# Technologies
-### *React / Redis / Postgresql / Prisma ORM / Firebase / Tailwind / Nodejs / Express*
+
