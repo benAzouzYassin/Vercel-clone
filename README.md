@@ -7,14 +7,14 @@
 ![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/main/previews/auth-page.png)
 
 ### Home page
-![](https://raw.github.com/benAzouzYassin/Vercel-clone/Vercel-clone/main/previews/home-page.png)
+![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/Vercel-clone/main/previews/home-page.png)
 
 ### Creating new project from github 
-![](https://raw.github.com/benAzouzYassin/Vercel-clone/Vercel-clone/main/previews/import-page.png)
+![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/Vercel-clone/main/previews/import-page.png)
 
 
 ### Project deployment page
-![](https://raw.github.com/benAzouzYassin/Vercel-clone/Vercel-clone/main/previews/project-page.png)
+![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/Vercel-clone/main/previews/project-page.png)
 
 # Project Folders
 
