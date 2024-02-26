@@ -21,7 +21,7 @@ export default function Auth() {
                         Authenticate with GitHub
                         <img className="bg-black ml-3 rounded-full mb-[2px]" src="/github.svg" width="20" height="20" alt="" />
                     </a>
-                    <a className="inline-block w-full text-center text-sm underline" href="#">
+                    <a className="inline-block w-full text-center text-sm underline" href="https://github.com/signup">
                         Don't have an account?
                     </a>
                 </div>

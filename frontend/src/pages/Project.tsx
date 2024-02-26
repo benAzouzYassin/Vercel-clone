@@ -47,7 +47,7 @@ export default function Project() {
             <p className="text-sm text-white/70">The deployment that is available to your users</p>
 
             <div className="w-full mt-10 h-[55vh] flex bg-[#141414] border border-white/20">
-                <div className="bg-white h-[90%] my-auto ml-5 rounded-sm w-96"></div>
+                <div className="bg-gradient-to-tr from-neutral-400 via-neutral-300 to-neutral-400 h-[90%] my-auto ml-5 rounded-sm w-96 "></div>
                 <div className="flex  flex-col w-[70%] px-5  mt-5">
 
                     <p className="text-lg drop-shadow-sm  font-medium text-neutral-500">Deployment :</p>
