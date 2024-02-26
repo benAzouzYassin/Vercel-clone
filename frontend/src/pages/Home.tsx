@@ -4,7 +4,7 @@ import ProjectCard from "@/components/home/ProjectCard"
 import { Button } from "@/components/ui/button"
 import { api } from "@/lib/axios"
 import { useNavigate } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useEffect, } from "react"
 
 type Project = {
     name: string
@@ -14,12 +14,13 @@ type Project = {
     imageUrl: string
     faviconUrl: string
 }
+
 export default function Home() {
     const navigate = useNavigate()
-    const [githubData, setGithubData] = useState(null)
+    // const [, setGithubData] = useState(null)
     useEffect(() => {
-        api.get("/githubData")
-            .then(({ data }) => setGithubData(data))
+        api.get("/user/projects")
+            .then(({ data }) => console.log(data))
             .catch(err => {
                 const status = err?.response?.status
                 if (status == 401 || status == 403) navigate("/auth")
@@ -32,15 +33,14 @@ export default function Home() {
             .catch(err => console.error(err))
     }
     const projects: Project[] = [
-        // { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
-        // { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
-        // { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
-        // { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
-        // { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
-        // { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" }
+        { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
+        { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
+        { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
+        { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
+        { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" },
+        { faviconUrl: "/vercel.svg", date: "17/2/2024", githubUrl: "https://github.com/benAzouzYassin/Portfolio-2.0", imageUrl: "", name: "portfolio", url: "yassine-ben-azouz-123" }
     ]
 
-    if (!githubData) return "loading...."
     return (<main className="min-h-[100vh] relative  bg-black" >
         <Nav />
         <div className="px-48">

@@ -8,11 +8,12 @@
     "strict": true,
     "skipLibCheck": true,
     "outDir": "./dist",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
   },
   "include": [
-    "../backend/src/**/*",
-    "server.ts"
+    "./src/**/*",
+    "server.ts",
+    ".src/types/express.d.ts"
   ],
   "exclude": [
     "node_modules",

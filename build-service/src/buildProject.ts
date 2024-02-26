@@ -3,18 +3,28 @@ import { exec } from "child_process"
 export function buildProject(projectId: string) {
     console.log("started building " + projectId)
     return new Promise((resolve, reject) => {
-        exec(`cd ./downloaded-files/${projectId}`, async (err) => {
-            if (err) throw new Error(err?.message)
-            await verifyBuildCommand(projectId)
-            const buildResult = await startBuilding(projectId)
-            if (buildResult) {
-                resolve(true)
-            } else {
-                reject(false)
-            }
+        try {
 
-        })
+            exec(`cd ./downloaded-files/${projectId}`, async (err) => {
+                if (err) throw new Error(err?.message)
+                try {
 
+                    await verifyBuildCommand(projectId)
+                    const buildResult = await startBuilding(projectId)
+                    if (buildResult) {
+                        resolve(true)
+                    } else {
+                        reject(false)
+                    }
+                } catch (error) {
+                    reject(false)
+                }
+
+            })
+
+        } catch (error) {
+            reject(false)
+        }
     })
 
 }

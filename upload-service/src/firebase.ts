@@ -26,13 +26,13 @@ function uploadFile(file: string) {
     })
 }
 export async function uploadFiles(dir: string[]) {
-    console.log("uploading files of : " , dir)
+    console.log("uploading files of : ", dir)
     let isError = false
     const uploadPromises = dir
         .filter(filePath => filePath.split("/")[2] !== ".git")
         .map(filePath => uploadFile(filePath))
     try {
-        console.log("starter uploading all files ! ")
+        console.log("started uploading all files. ")
         const res = await Promise.all(uploadPromises)
         console.log(res, "done ")
     } catch (error) {

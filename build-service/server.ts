@@ -14,16 +14,32 @@ const redis = createClient({
 redis.on('error', (err) => console.log('Redis Client Error', err));
 redis.connect();
 
+process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception:', error);
+});
+process.on('unhandledRejection', (error) => {
+    console.error('Unhandled Promise Rejection:', error);
+});
 async function main() {
+    let projectId
     while (true) {
-        console.log("waiting for elements")
-        const queue = await redis.brPop("id", 0)
-        const projectId = queue?.element
-        await downloadFolder(projectId ?? "").catch(err => console.error(err))
-        await buildProject(projectId ?? "").catch(err => console.error(err))
-        await uploadBuildOutput(projectId ?? "").catch(err => console.error(err))
-        await removerDirAsync(`downloaded-files/${projectId}`)
+        try {
+            console.log("waiting for elements")
+            const queue = await redis.brPop("id", 0)
+            projectId = queue?.element
+            await downloadFolder(projectId ?? "")
+            await buildProject(projectId ?? "")
+            await uploadBuildOutput(projectId ?? "")
+            await removerDirAsync(`downloaded-files/${projectId}`)
+            if (projectId) redis.hSet("status", projectId, "live")
+        } catch (error) {
+            console.error(error)
+            if (projectId) redis.hSet("status", projectId, "failed")
+            continue
+        }
+
     }
+
 
 }
 

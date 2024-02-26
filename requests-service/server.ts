@@ -10,11 +10,10 @@ app.use(express.json())
 app.get("/*", async (req, res) => {
     const id = req.hostname.split(".")[0]
     const file = Object.values(req.params).join("/")
-
+    console.log("request to : ", id)
     const storedFile = await getFile(id, file).catch(err => console.error(err.message))
     const fileType = mime.lookup(file)
     res.set("Content-Type", fileType.toString())
-    console.log(fileType)
     res.send(storedFile)
 
 

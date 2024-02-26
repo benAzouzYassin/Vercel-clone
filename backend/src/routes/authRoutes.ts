@@ -1,6 +1,5 @@
 import { Router } from "express"
-import { handleGithubAuth } from "../controllers/githubAuth.js"
-import { handleLogout } from "../controllers/logout.js"
+import { handleGithubAuth, handleLogout } from "../controllers/authControllers.js"
 
 export const authRouter = Router()
 // github auth

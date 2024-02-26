@@ -7,23 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id             String    @id @default(uuid())
-  email          String
-  hashedPassword String
-  sessions       Session[]
-}
-
 model GithubUser {
   id       String    @id @default(uuid())
   email    String    @unique
   sessions Session[]
+  projects Project[]
 }
 
 model Session {
   id           String      @id @default(uuid())
   userId       String?
-  user         User?       @relation(references: [id], fields: [userId], onDelete: Cascade)
   GithubUser   GithubUser? @relation(fields: [githubUserId], references: [id])
   githubUserId String?
+  isValid      Boolean
+}
+
+model Project {
+  id           String      @id @default(uuid())
+  name         String
+  url          String
+  date         DateTime    @default(now())
+  githubUrl    String
+  imageUrl     String
+  faviconUrl   String
+  githubUserId String?
+  status       String //"uploading" | "building" | "live" | "failed"
+  GithubUser   GithubUser? @relation(fields: [githubUserId], references: [id])
 }

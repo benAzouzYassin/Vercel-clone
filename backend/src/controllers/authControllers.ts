@@ -3,7 +3,9 @@ import axios from "axios"
 import { Octokit } from "octokit"
 import { prisma } from "../lib/prisma.js"
 import jwt from "jsonwebtoken"
+
 export async function handleGithubAuth(req: Request, res: Response) {
+    console.log("github auth")
     try {
         const code = req.query["code"]
 
@@ -47,9 +49,18 @@ async function saveUserIfNotExist(githubAccessToken: string) {
     if (!user) {
         user = await prisma.githubUser.create({ data: { email } })
     }
+    const newSession = await prisma.session.create({ data: { isValid: true, githubUserId: user.id } })
 
     const jwtAccessToken = jwt.sign({ userId: user.id, githubToken: githubAccessToken }, process.env.SECRET_KEY!, { expiresIn: "15s" });
-    const jwtRefreshToken = jwt.sign({ userId: user.id, githubToken: githubAccessToken }, process.env.SECRET_KEY!, { expiresIn: "1y" });
+    const jwtRefreshToken = jwt.sign({ sessionId: newSession.id, userId: user.id, githubToken: githubAccessToken }, process.env.SECRET_KEY!, { expiresIn: "1y" });
 
     return { user, jwtRefreshToken, jwtAccessToken }
+}
+
+export function handleLogout(req: Request, res: Response) {
+
+    res.clearCookie("access_token")
+    res.clearCookie("refresh_token")
+    res.send({ success: true })
+
 }

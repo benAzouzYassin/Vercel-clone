@@ -49,6 +49,7 @@ app.post('/', expressAsyncHandler(async (req, res) => {
     if (err) console.error("error while deleting repo : server.ts line: 40 ")
   })
   redis.LPUSH("id", reqId)
+  redis.hSet("status", reqId, "building")
   res.json({ "success": uploaded, id: reqId })
 }));
 

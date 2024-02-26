@@ -6,6 +6,7 @@ export default function Auth() {
     const scopes = ["repo", "user:email", "emails:read"].join(" ")
     console.log(scopes)
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&path=${path}&scope=${scopes}`
+    console.log(githubAuthUrl)
     return (
         <main className="w-[100vw] h-[100vh] bg-black flex  ">
             <div className="mx-auto w-96  p-5 rounded-md bg-[#ffffff] border-white/10 space-y-6  border  h-fit mt-56   text-black">

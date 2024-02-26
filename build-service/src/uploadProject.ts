@@ -58,7 +58,7 @@ function uploadFile(file: string, projectId: string) {
     return new Promise((res, rej) => {
         bucket.upload(file, { destination: fileDestination }, (err, file) => {
             if (err) {
-                console.log("error in src/firebase.ts line 19 : ", err)
+                console.error("error in src/firebase.ts line 19 : ", err)
                 rej("error while uploading " + err?.message ?? "")
             } else {
                 res(`uploaded ${file?.name}`)
