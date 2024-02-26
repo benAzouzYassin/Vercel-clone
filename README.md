@@ -7,13 +7,13 @@
 ![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/main/previews/auth-page.png)
 
 ### Home page
-![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/Vercel-clone/main/previews/home-page.png)
+![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/main/previews/home-page.png)
 
 ### Creating new project from github 
-![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/Vercel-clone/main/previews/import-page.png)
+![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/main/previews/import-page.png)
 
 ### Project deployment page
-![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/Vercel-clone/main/previews/project-page.png)
+![](https://raw.githubusercontent.com/benAzouzYassin/Vercel-clone/main/previews/project-page.png)
 
 # Technologies
 ### *React / Redis / Postgresql / Prisma ORM / Firebase / Tailwind / Nodejs / Express*
